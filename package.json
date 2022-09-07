@@ -1,4 +1,5 @@
 {
+  "name": "authtesst",
   "scripts": {
     "dev": "npx nodemon ./src/index.ts",
     "build": "tsc",
