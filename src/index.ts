@@ -12,7 +12,7 @@ let rabbitconn = 4;
 const PORT: number | string = process.env.PORT || 9987;
 const app: Express = express();
 
-// app.use(cors(corsOptions()))
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/signup", SignupRouter);
