@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Date } from "mongoose";
+import { Date, ObjectId } from "mongoose";
 import logg from "../Logs/Customlog";
 import { User } from "../models/Users";
 import { addUserType } from "../services/Add";
@@ -26,13 +26,8 @@ export interface UserData {
 }
 
 //check if user exist in the database
-export const checkuser = async (
-  req: CustomRequest,
-  res: Response,
-  next: NextFunction
-): Promise<Response | void> => {
-  const { email, Firstname, Lastname, Country, DOB, Password }: addUserType =
-    req.body;
+export const checkuser = async (req: CustomRequest, res: Response, next: NextFunction): Promise<Response | void> => {
+  const { email, Firstname, Lastname, Country, DOB, Password }: addUserType = req.body;
   const parametercheck = checkparameter({
     email,
     Firstname,
@@ -66,13 +61,8 @@ export const checkuser = async (
 };
 
 //check if the user exist but for creators
-export const checkuser_creator = async (
-  req: CustomRequest,
-  res: Response,
-  next: NextFunction
-): Promise<Response | void> => {
-  const { email, studio_name }: { email: string; studio_name: string } =
-    req.body;
+export const checkuser_creator = async (req: CustomRequest, res: Response, next: NextFunction): Promise<Response | void> => {
+  const { email, studio_name }: { email: string; studio_name: string } = req.body;
   const parametercheck = checkparameter({ email, studio_name });
 
   //check if email isn't valid
@@ -100,13 +90,9 @@ export const checkuser_creator = async (
 };
 
 //check if user exist in the database for logi n and reset password
-export const checkuserLoginAndReset = async (
-  req: CustomRequest,
-  res: Response,
-  next: NextFunction
-): Promise<Response | void> => {
-  const { email, Password }: addUserType = req.body;
-  const parametercheck = checkparameter({ email, Password });
+export const checkuserLoginAndReset = async (req: CustomRequest, res: Response, next: NextFunction): Promise<Response | void> => {
+  const { userId, Password }: { userId: ObjectId; Password: string } = req.body;
+  const parametercheck = checkparameter({ userId, Password });
 
   //check if email isn't valid
   if (parametercheck) {
@@ -114,14 +100,13 @@ export const checkuserLoginAndReset = async (
   }
   //else
   try {
-    const UserData: null | UserData = await User.findOne({ email }, "email");
+    const UserData: null | UserData = await User.findOne({ _id: userId });
     //if user doesnt exist, continue to the next thing
     if (UserData === null) {
       req.User = null;
       return next();
     }
     // else
-    req.User = UserData.email;
     req.User_id = UserData._id;
     return next();
   } catch (error: any) {
@@ -131,4 +116,3 @@ export const checkuserLoginAndReset = async (
     });
   }
 };
-
