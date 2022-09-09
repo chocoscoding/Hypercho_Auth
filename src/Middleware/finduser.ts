@@ -91,7 +91,7 @@ export const checkuser_creator = async (req: CustomRequest, res: Response, next:
 
 //check if user exist in the database for logi n and reset password
 export const checkuserLoginAndReset = async (req: CustomRequest, res: Response, next: NextFunction): Promise<Response | void> => {
-  const { userId, Password }: { userId: ObjectId; Password: string } = req.body;
+  const { userId, Password }: { userId: string; Password: string } = req.body;
   const parametercheck = checkparameter({ userId, Password });
 
   //check if email isn't valid

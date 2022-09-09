@@ -25,7 +25,7 @@ export const Signupuser = async (req: CustomRequest, res: Response) => {
     }
   }
   //else
-  return res.status(401).json({ status: 401, message: "This mail is already in use by another user" });
+  return res.status(401).json({ status: 401, message: "This mail is already in use by another user." });
 };
 
 //signup creators from prexising user data;

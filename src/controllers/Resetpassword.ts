@@ -5,7 +5,7 @@ import { changePassword } from "../services/Update";
 
 //function to reset password
 export const ResetPassword = async (req: CustomRequest, res: Response) => {
-  if (req.User) {
+  if (req.User_id) {
     try {
       const result = await changePassword(req.User_id!.toString(), req.body.Password);
       return res.status(200).json({ status: 200, message: result });
