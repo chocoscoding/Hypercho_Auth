@@ -91,6 +91,35 @@ export const checkuser_creator = async (req: CustomRequest, res: Response, next:
 
 //check if user exist in the database for logi n and reset password
 export const checkuserLoginAndReset = async (req: CustomRequest, res: Response, next: NextFunction): Promise<Response | void> => {
+  const { email, Password }: addUserType = req.body;
+  const parametercheck = checkparameter({ email, Password });
+
+  //check if email isn't valid
+  if (parametercheck) {
+    return res.status(401).send({ error: `Kindly provide: ${parametercheck}` });
+  }
+  //else
+  try {
+    const UserData: null | UserData = await User.findOne({ email }, "email");
+    //if user doesnt exist, continue to the next thing
+    if (UserData === null) {
+      req.User = null;
+      return next();
+    }
+    // else
+    req.User = UserData.email;
+    req.User_id = UserData._id;
+    return next();
+  } catch (error: any) {
+    logg.error(error.message);
+    return res.status(404).send({
+      error: "Sorry something went wrong on our side, We are fixing it!",
+    });
+  }
+};
+
+//check if user exist in the database for and reset password
+export const checkuserForReset = async (req: CustomRequest, res: Response, next: NextFunction): Promise<Response | void> => {
   const { userId, Password }: { userId: string; Password: string } = req.body;
   const parametercheck = checkparameter({ userId, Password });
 
