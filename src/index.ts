@@ -6,6 +6,7 @@ import connectDB from "./db/Mongodb";
 import logg from "./Logs/Customlog";
 import SignupRouter from "./Routes/SignupRouter";
 import LoginRouter from "./Routes/LoginRouter";
+import ResetRouter from "./Routes/ResetRouter";
 
 dotenv.config();
 let rabbitconn = 4;
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/signup", SignupRouter);
 app.use("/login", LoginRouter);
+app.use("/reset", ResetRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("<h1>Welcome to the auth service</h1>");
