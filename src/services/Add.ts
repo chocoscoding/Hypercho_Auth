@@ -22,14 +22,8 @@ interface tempData extends Omit<UserData, "Password"> {
   Password?: string;
 }
 //function to add new user
-export const addUser = async ({
-  Password,
-  email,
-  Firstname,
-  Lastname,
-  Country,
-  DOB,
-}: addUserType): Promise<tempData> => {
+export const addUser = async ({ Password, email, Firstname, Lastname, Country, DOB }: addUserType): Promise<tempData> => {
+  const username: string = `${Firstname.trim().toLowerCase()}${Lastname.trim().toLowerCase()}`;
   //check if user hasn't been added to the db
   try {
     const user: any = new User({
@@ -41,7 +35,11 @@ export const addUser = async ({
       DOB,
       Verified: false,
       Password,
-      Reg_date: new Date(),
+      profilePic: "1",
+      username,
+      Settings: {
+        History: false,
+      },
     });
     const created_user = await user.save();
     sendInitmail({
@@ -49,7 +47,7 @@ export const addUser = async ({
       Firstname: created_user.Firstname,
       userID: created_user._id.toString(),
     });
-    console.log('added new user')
+    console.log("added new user");
     const tempdata: tempData = created_user;
     tempdata.Password = undefined;
     return tempdata;
@@ -60,12 +58,7 @@ export const addUser = async ({
 };
 
 //function to add new creator
-export const addCreator = async ({
-  studio_banner,
-  studio_logo,
-  studio_name,
-  userRef_id,
-}: addCreatorType): Promise<addCreatorType> => {
+export const addCreator = async ({ studio_banner, studio_logo, studio_name, userRef_id }: addCreatorType): Promise<addCreatorType> => {
   //check if user hasn't been added to the db
   try {
     const creator: any = new Creator({
@@ -76,10 +69,7 @@ export const addCreator = async ({
       Reg_date: new Date(),
     });
     const created_creator = await creator.save();
-    await User.findOneAndUpdate(
-      { _id: userRef_id.toString() },
-      { Creator: true }
-    );
+    await User.findOneAndUpdate({ _id: userRef_id.toString() }, { Creator: true });
     return created_creator;
   } catch (error: any) {
     logg.fatal(error.message);
