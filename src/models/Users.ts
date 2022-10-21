@@ -73,7 +73,7 @@ const userSchema = new Schema<User>({
       Pause: { type: Boolean, default: false },
     },
   },
-  profilePic: { type: String, required: true },
+  profilePic: { type: String, default: '1' },
   username: { type: String, required: true },
 });
 // Create a Schema for creator interface.
