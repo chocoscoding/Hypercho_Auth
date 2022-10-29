@@ -5,7 +5,7 @@ interface User {
   Firstname: string;
   Lastname: string;
   Country: string;
-  Creator: boolean;
+  channel: ObjectId;
   DOB: string;
   Verified: boolean;
   Password: string;
@@ -46,9 +46,9 @@ const userSchema = new Schema<User>({
     type: String,
     required: true,
   },
-  Creator: {
-    type: Boolean,
-    required: true,
+  channel: {
+    type: Schema.Types.ObjectId,
+    Ref: 'channel'
   },
   DOB: {
     type: String,
@@ -74,7 +74,7 @@ const userSchema = new Schema<User>({
     },
   },
   profilePic: { type: String, default: '1' },
-  username: { type: String, required: true },
+  username: { type: String, required: true }
 });
 // Create a Schema for creator interface.
 const creatorSchema = new Schema<Creator>({

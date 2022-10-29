@@ -31,7 +31,6 @@ export const addUser = async ({ Password, email, Firstname, Lastname, Country, D
       Firstname,
       Lastname,
       Country,
-      Creator: false,
       DOB,
       Verified: false,
       Password,

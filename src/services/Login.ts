@@ -7,12 +7,9 @@ interface tempData extends Omit<UserData, "Password"> {
   Password?: string;
 }
 //function to verify password
-export const checkPassword = async (
-  plain_Password: string,
-  _id: string
-): Promise<{ match: boolean; userinfo: null | tempData }> => {
+export const checkPassword = async (plain_Password: string, _id: string): Promise<{ match: boolean; userinfo: null | tempData }> => {
   //fetch password
-  const findUser: UserData | null = await User.findOne({ _id });
+  const findUser: UserData | null = await User.findOne({ _id }).populate("channel", { _id: 1, channelPic: 1, channelName: 1 });
   //convert it from jwt to hashed version
   const verifiedPass = verifyPassword(findUser!.Password);
   //compare hased version and plain text
