@@ -48,7 +48,7 @@ const userSchema = new Schema<User>({
   },
   channel: {
     type: Schema.Types.ObjectId,
-    Ref: 'channel'
+    Ref: "channel",
   },
   DOB: {
     type: String,
@@ -64,8 +64,8 @@ const userSchema = new Schema<User>({
   },
   Reg_date: {
     type: Date,
-    default: Date.now
-    },
+    default: Date.now,
+  },
   Settings: {
     type: Schema.Types.Mixed,
     History: {
@@ -73,8 +73,8 @@ const userSchema = new Schema<User>({
       Pause: { type: Boolean, default: false },
     },
   },
-  profilePic: { type: String, default: '1' },
-  username: { type: String, required: true }
+  profilePic: { type: String, default: "1" },
+  username: { type: String, required: true },
 });
 // Create a Schema for creator interface.
 const creatorSchema = new Schema<Creator>({

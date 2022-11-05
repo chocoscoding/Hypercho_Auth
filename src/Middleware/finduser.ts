@@ -18,7 +18,7 @@ export interface UserData {
   Firstname: string;
   Lastname: string;
   Country: string;
-  Creator: boolean;
+  channel: boolean;
   DOB: number;
   Verified: boolean;
   Password: string;

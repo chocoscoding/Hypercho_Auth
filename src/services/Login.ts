@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { UserData } from "../Middleware/finduser";
+import ChannelSchema from "../models/ChannelSchema";
 import { User } from "../models/Users";
 import { comparepassword, verifyPassword } from "../utils";
 
@@ -9,7 +10,11 @@ interface tempData extends Omit<UserData, "Password"> {
 //function to verify password
 export const checkPassword = async (plain_Password: string, _id: string): Promise<{ match: boolean; userinfo: null | tempData }> => {
   //fetch password
-  const findUser: UserData | null = await User.findOne({ _id }).populate("channel", { _id: 1, channelPic: 1, channelName: 1 });
+  const findUser: UserData | null = await User.findOne({ _id }).populate({
+    path: "channel",
+    model: ChannelSchema,
+    select: { channelId: 1, username: 1, channelName: 1, channelPic: 1, channelBanner: 1 },
+  });
   //convert it from jwt to hashed version
   const verifiedPass = verifyPassword(findUser!.Password);
   //compare hased version and plain text
