@@ -93,7 +93,6 @@ export const checkCreator = async (userid: string): Promise<boolean> => {
 export const checkName = async (name: string): Promise<boolean> => {
   try {
     const checkName = await Creator.findOne({ studio_name: name });
-    console.log(checkName);
     if (checkName === null) return true;
     return false;
   } catch (error: any) {
